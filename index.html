@@ -206,9 +206,9 @@
             color: #fff;
             cursor: pointer;
             transition: all 0.15s;
-            touch-action: manipulation;
-            -webkit-tap-highlight-color: transparent;
-            user-select: none;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .key-btn:hover {
@@ -218,6 +218,15 @@
 
         .key-btn:active {
             transform: scale(0.95);
+        }
+
+        .key-btn.space {
+            width: 160px;
+        }
+
+        .key-btn.key-delete {
+            background: rgba(255,100,100,0.2);
+            border-color: rgba(255,100,100,0.4);
         }
 
         .key-btn.space {
@@ -310,35 +319,67 @@
             }
 
             .letter-map {
-                grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+                grid-template-columns: repeat(auto-fill, minmax(50px, 1fr));
                 gap: 5px;
             }
 
             .letter-item {
-                padding: 8px;
+                padding: 6px;
             }
 
             .letter-item .eng {
-                font-size: 1em;
+                font-size: 0.9em;
             }
 
             .letter-item .rune {
-                font-size: 1.4em;
+                font-size: 1.2em;
+            }
+
+            .keyboard-grid {
+                gap: 5px;
             }
 
             .keyboard-row {
-                flex-wrap: wrap;
+                display: flex;
                 justify-content: center;
+                gap: 4px;
             }
 
             .key-btn {
-                width: 35px;
-                height: 40px;
-                font-size: 1.1em;
+                font-family: 'Rune', sans-serif;
+                font-size: 1em;
+                width: 28px;
+                height: 42px;
+                border: 1px solid rgba(255,215,0,0.3);
+                border-radius: 6px;
+                background: rgba(0,0,0,0.4);
+                color: #fff;
+                cursor: pointer;
+                transition: all 0.15s;
+                touch-action: manipulation;
+                -webkit-tap-highlight-color: transparent;
+                user-select: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+
+            .key-btn:hover {
+                background: rgba(255,215,0,0.2);
+                border-color: #ffd700;
+            }
+
+            .key-btn:active {
+                transform: scale(0.95);
             }
 
             .key-btn.space {
-                width: 120px;
+                width: 100px;
+            }
+
+            .key-btn.key-delete {
+                background: rgba(255,100,100,0.2);
+                border-color: rgba(255,100,100,0.4);
             }
 
             .actions {
@@ -512,10 +553,22 @@
                 container.appendChild(rowDiv);
             });
 
-            // 空格键
-            const spaceRow = document.createElement('div');
-            spaceRow.className = 'keyboard-row';
+            // 空格键和删除键
+            const bottomRow = document.createElement('div');
+            bottomRow.className = 'keyboard-row';
 
+            // 删除键
+            const delBtn = document.createElement('button');
+            delBtn.className = 'key-btn key-delete';
+            delBtn.textContent = '⌫';
+            delBtn.onclick = (e) => {
+                e.preventDefault();
+                document.execCommand('delete', false);
+                runeToEng();
+            };
+            bottomRow.appendChild(delBtn);
+
+            // 空格键
             const spaceBtn = document.createElement('button');
             spaceBtn.className = 'key-btn space';
             spaceBtn.textContent = '空格';
@@ -524,8 +577,9 @@
                 document.execCommand('insertText', false, ' ');
                 runeToEng();
             };
-            spaceRow.appendChild(spaceBtn);
-            container.appendChild(spaceRow);
+            bottomRow.appendChild(spaceBtn);
+
+            container.appendChild(bottomRow);
         }
 
         // 英文转洛克王国语
