@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>洛克王国语翻译器</title>
+    <style>
+        @font-face {
+            font-family: 'Rune';
+            src: url('font/RUNEREGULAR.ttf') format('truetype');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffd700;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 30px;
+        }
+
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .section h2 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.3em;
+        }
+
+        .translator-box {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        .input-group {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .input-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ccc;
+        }
+
+        textarea {
+            width: 100%;
+            height: 100px;
+            padding: 15px;
+            border: 2px solid rgba(255,215,0,0.3);
+            border-radius: 10px;
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            font-size: 1.1em;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #ffd700;
+        }
+
+        .output-box {
+            width: 100%;
+            min-height: 100px;
+            padding: 15px;
+            border: 2px solid rgba(255,215,0,0.3);
+            border-radius: 10px;
+            background: rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            word-break: break-all;
+            text-align: center;
+            font-size: 2em;
+        }
+
+        .output-box.rune-text {
+            font-family: 'Rune', sans-serif;
+            letter-spacing: 5px;
+        }
+
+        .output-box.eng-text {
+            font-size: 1.3em;
+        }
+
+        .letter-map {
+            display: grid;
+            grid-template-columns: repeat(13, 1fr);
+            gap: 8px;
+        }
+
+        .letter-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 10px;
+            background: rgba(0,0,0,0.2);
+            border-radius: 8px;
+        }
+
+        .letter-item .eng {
+            font-size: 1.2em;
+            color: #ffd700;
+            margin-bottom: 5px;
+        }
+
+        .letter-item .rune {
+            font-family: 'Rune', sans-serif;
+            font-size: 1.8em;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            color: #1a1a2e;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255,215,0,0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        /* QWERTY 键盘布局 */
+        .keyboard-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-top: 15px;
+        }
+
+        .keyboard-row {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+        }
+
+        .key-btn {
+            font-family: 'Rune', sans-serif;
+            font-size: 1.4em;
+            width: 45px;
+            height: 50px;
+            border: 2px solid rgba(255,215,0,0.3);
+            border-radius: 8px;
+            background: rgba(0,0,0,0.4);
+            color: #fff;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .key-btn:hover {
+            background: rgba(255,215,0,0.2);
+            border-color: #ffd700;
+            transform: scale(1.08);
+        }
+
+        .key-btn:active {
+            transform: scale(0.95);
+        }
+
+        .key-btn.space {
+            width: 200px;
+        }
+
+        .editable-box {
+            cursor: text;
+            min-height: 80px;
+            padding: 15px;
+            overflow-x: auto;
+            white-space: nowrap;
+            font-family: 'Rune', sans-serif;
+            letter-spacing: 5px;
+        }
+
+        .helper-text {
+            font-size: 0.85em;
+            color: #888;
+            margin-top: 5px;
+        }
+
+        .reverse-section {
+            display: flex;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .reverse-input {
+            flex: 1;
+            min-width: 280px;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .footer a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>洛克王国语翻译器</h1>
+        <p class="subtitle">Roco Kingdom Language Translator</p>
+
+        <!-- 字母对照表 -->
+        <div class="section">
+            <h2>字母对照表</h2>
+            <div class="letter-map" id="letterMap"></div>
+        </div>
+
+        <!-- 英文转洛克王国语 -->
+        <div class="section">
+            <h2>英文 → 洛克王国语</h2>
+            <div class="translator-box">
+                <div class="input-group">
+                    <label>输入英文：</label>
+                    <textarea id="engInput" placeholder="输入英文..." oninput="engToRune()"></textarea>
+                </div>
+                <div class="input-group">
+                    <label>翻译结果：</label>
+                    <div class="output-box rune-text" id="runeOutput">在此显示翻译结果</div>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn-secondary" onclick="copyRune()">复制</button>
+                <button class="btn-secondary" onclick="clearEng()">清空</button>
+            </div>
+        </div>
+
+        <!-- 洛克王国语转英文 -->
+        <div class="section">
+            <h2>洛克王国语 → 英文</h2>
+            <h4>虚拟键盘键入洛克语时，实时翻译功能需要先点击绑定物理键盘</h4>
+            <div class="reverse-section">
+                <div class="reverse-input">
+                    <label>使用下方键盘输入洛克王国语：</label>
+                    <div class="output-box rune-text editable-box" id="runeInput" contenteditable="true" oninput="runeToEng()" onpaste="setTimeout(runeToEng, 0)" onclick="this.focus()"></div>
+                </div>
+                <div class="reverse-input">
+                    <label>翻译结果（英文）：</label>
+                    <div class="output-box eng-text" id="engOutput">在此显示翻译结果</div>
+                </div>
+            </div>
+            <div class="actions">
+                <button class="btn-secondary" id="bindKeyboardBtn" onclick="toggleKeyboardBind()">绑定物理键盘</button>
+                <button class="btn-secondary" onclick="copyEng()">复制结果</button>
+                <button class="btn-secondary" onclick="clearRune()">清空</button>
+            </div>
+        </div>
+
+        <!-- 虚拟键盘 - QWERTY布局 -->
+        <div class="section">
+            <h2>洛克王国语虚拟键盘</h2>
+            <p class="helper-text">点击字符输入</p>
+            <div class="keyboard-grid" id="keyboard"></div>
+        </div>
+
+        <!-- 作者信息 -->
+        <div class="footer">
+            <p>作者：<a href="https://github.com/TsangHaotian" target="_blank">TsangHaotian</a></p>
+            <p>仓库地址：<a href="https://github.com/TsangHaotian/RocoKingdomTranslator" target="_blank">https://github.com/TsangHaotian/RocoKingdomTranslator</a></p>
+        </div>
+    </div>
+
+    <script>
+        // 现代键盘布局 (QWERTY)
+        const QWERTY_LAYOUT = [
+            ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
+            ['A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L'],
+            ['Z', 'X', 'C', 'V', 'B', 'N', 'M']
+        ];
+
+        // 检测字体文件中的字符
+        let fontChars = [];
+
+        function detectFontChars() {
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            ctx.font = '60px Rune';
+
+            // A-Z 的 Unicode 范围
+            for (let code = 0x41; code <= 0x5A; code++) {
+                const char = String.fromCodePoint(code);
+                const metrics = ctx.measureText(char);
+                if (metrics.width > 5) {
+                    fontChars.push({ eng: char, rune: char });
+                }
+            }
+
+            // 如果检测失败，假设是 1:1 映射
+            if (fontChars.length < 26) {
+                for (let code = 0x41; code <= 0x5A; code++) {
+                    fontChars.push({ eng: String.fromCodePoint(code), rune: String.fromCodePoint(code) });
+                }
+            }
+
+            return fontChars;
+        }
+
+        // 建立映射表
+        let engToRuneMap = {};
+        let runeToEngMap = {};
+
+        function buildMaps() {
+            fontChars.forEach(item => {
+                engToRuneMap[item.eng] = item.rune;
+                runeToEngMap[item.rune] = item.eng;
+            });
+        }
+
+        // 渲染字母对照表
+        function renderLetterMap() {
+            const container = document.getElementById('letterMap');
+            container.innerHTML = '';
+
+            fontChars.forEach(item => {
+                const div = document.createElement('div');
+                div.className = 'letter-item';
+
+                const eng = document.createElement('span');
+                eng.className = 'eng';
+                eng.textContent = item.eng;
+
+                const rune = document.createElement('span');
+                rune.className = 'rune';
+                rune.textContent = item.rune;
+
+                div.appendChild(eng);
+                div.appendChild(rune);
+                container.appendChild(div);
+            });
+        }
+
+        // 渲染QWERTY键盘
+        function renderKeyboard() {
+            const container = document.getElementById('keyboard');
+            container.innerHTML = '';
+
+            QWERTY_LAYOUT.forEach(row => {
+                const rowDiv = document.createElement('div');
+                rowDiv.className = 'keyboard-row';
+
+                row.forEach(key => {
+                    const btn = document.createElement('button');
+                    btn.className = 'key-btn';
+                    btn.textContent = engToRuneMap[key] || key;
+                    btn.dataset.key = key;
+
+                    btn.onclick = (e) => {
+                        e.preventDefault();
+                        document.execCommand('insertText', false, btn.textContent);
+                        runeToEng();
+                    };
+
+                    rowDiv.appendChild(btn);
+                });
+
+                container.appendChild(rowDiv);
+            });
+
+            // 空格键
+            const spaceRow = document.createElement('div');
+            spaceRow.className = 'keyboard-row';
+
+            const spaceBtn = document.createElement('button');
+            spaceBtn.className = 'key-btn space';
+            spaceBtn.textContent = '空格';
+            spaceBtn.onclick = (e) => {
+                e.preventDefault();
+                document.execCommand('insertText', false, ' ');
+                runeToEng();
+            };
+            spaceRow.appendChild(spaceBtn);
+            container.appendChild(spaceRow);
+        }
+
+        // 英文转洛克王国语
+        function engToRune() {
+            const input = document.getElementById('engInput').value.toUpperCase();
+            let result = '';
+            for (const char of input) {
+                result += engToRuneMap[char] || (char === ' ' ? ' ' : char);
+            }
+            document.getElementById('runeOutput').textContent = result || '在此显示翻译结果';
+        }
+
+        // 洛克王国语转英文
+        function runeToEng() {
+            const input = document.getElementById('runeInput').textContent;
+            let result = '';
+            for (const char of input) {
+                if (char === ' ') {
+                    result += ' ';
+                } else {
+                    result += runeToEngMap[char] || '';
+                }
+            }
+            document.getElementById('engOutput').textContent = result || '在此显示翻译结果';
+        }
+
+        // 复制
+        function copyRune() {
+            const text = document.getElementById('runeOutput').textContent;
+            if (text && text !== '在此显示翻译结果') {
+                navigator.clipboard.writeText(text).then(() => alert('已复制'));
+            }
+        }
+
+        function copyEng() {
+            const text = document.getElementById('engOutput').textContent;
+            if (text && text !== '在此显示翻译结果') {
+                navigator.clipboard.writeText(text).then(() => alert('已复制'));
+            }
+        }
+
+        // 清空
+        function clearEng() {
+            document.getElementById('engInput').value = '';
+            document.getElementById('runeOutput').textContent = '在此显示翻译结果';
+        }
+
+        function clearRune() {
+            document.getElementById('runeInput').textContent = '';
+            document.getElementById('engOutput').textContent = '在此显示翻译结果';
+        }
+
+        // 初始化
+        let keyboardBound = false;
+
+        detectFontChars();
+        buildMaps();
+        renderLetterMap();
+        renderKeyboard();
+
+        // 使用 MutationObserver 监听输入框变化
+        const runeInput = document.getElementById('runeInput');
+        const observer = new MutationObserver(() => runeToEng());
+        observer.observe(runeInput, { childList: true, subtree: true, characterData: true });
+
+        // 绑定/解绑物理键盘
+        function toggleKeyboardBind() {
+            const btn = document.getElementById('bindKeyboardBtn');
+            if (keyboardBound) {
+                document.removeEventListener('keydown', handlePhysicalKey);
+                btn.textContent = '绑定物理键盘';
+                btn.classList.remove('btn-primary');
+                btn.classList.add('btn-secondary');
+                keyboardBound = false;
+            } else {
+                document.addEventListener('keydown', handlePhysicalKey);
+                btn.textContent = '解绑物理键盘';
+                btn.classList.remove('btn-secondary');
+                btn.classList.add('btn-primary');
+                keyboardBound = true;
+                document.getElementById('runeInput').focus();
+            }
+        }
+
+        // 处理物理键盘输入
+        function handlePhysicalKey(e) {
+            const key = e.key.toUpperCase();
+            if (engToRuneMap[key]) {
+                e.preventDefault();
+                const input = document.getElementById('runeInput');
+                input.textContent += engToRuneMap[key];
+                // 将光标移到末尾
+                const range = document.createRange();
+                range.selectNodeContents(input);
+                range.collapse(false);
+                const sel = window.getSelection();
+                sel.removeAllRanges();
+                sel.addRange(range);
+                runeToEng();
+            }
+        }
+    </script>
+</body>
+</html>
