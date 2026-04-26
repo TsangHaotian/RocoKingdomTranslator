@@ -105,6 +105,8 @@
             word-break: break-all;
             text-align: center;
             font-size: 2em;
+            user-select: text;
+            -webkit-user-select: text;
         }
 
         .output-box.rune-text {
@@ -204,12 +206,14 @@
             color: #fff;
             cursor: pointer;
             transition: all 0.15s;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
         }
 
         .key-btn:hover {
             background: rgba(255,215,0,0.2);
             border-color: #ffd700;
-            transform: scale(1.08);
         }
 
         .key-btn:active {
@@ -228,6 +232,9 @@
             white-space: nowrap;
             font-family: 'Rune', sans-serif;
             letter-spacing: 5px;
+            touch-action: none;
+            user-select: text;
+            -webkit-user-select: text;
         }
 
         .helper-text {
