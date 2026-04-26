@@ -236,15 +236,22 @@
         .editable-box {
             cursor: text;
             min-height: 80px;
+            max-height: 150px;
             padding: 15px;
-            overflow-x: auto;
-            white-space: nowrap;
+            overflow-y: auto;
             font-family: 'Rune', sans-serif;
             letter-spacing: 5px;
             touch-action: none;
             user-select: text;
             -webkit-user-select: text;
             ime-mode: disabled;
+            word-wrap: break-word;
+            overflow-wrap: break-word;
+            white-space: normal;
+            display: flex;
+            align-items: flex-start;
+            justify-content: flex-start;
+            flex-wrap: wrap;
         }
 
         .helper-text {
@@ -342,16 +349,16 @@
             .keyboard-row {
                 display: flex;
                 justify-content: center;
-                gap: 4px;
+                gap: 3px;
             }
 
             .key-btn {
                 font-family: 'Rune', sans-serif;
-                font-size: 1em;
-                width: 28px;
-                height: 42px;
+                font-size: 0.9em;
+                width: 26px;
+                height: 40px;
                 border: 1px solid rgba(255,215,0,0.3);
-                border-radius: 6px;
+                border-radius: 5px;
                 background: rgba(0,0,0,0.4);
                 color: #fff;
                 cursor: pointer;
@@ -374,7 +381,7 @@
             }
 
             .key-btn.space {
-                width: 100px;
+                width: 80px;
             }
 
             .key-btn.key-delete {
