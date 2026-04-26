@@ -2,7 +2,10 @@
 
 A web-based translator for converting between English and RocoKingdom language.
 
-![Uploading 屏幕截图_26-4-2026_19300_.jpeg…]()
+
+
+<img width="1794" height="1471" alt="屏幕截图_26-4-2026_19300_" src="https://github.com/user-attachments/assets/11eb823f-7c38-49a3-bae8-50b7ac584857" />
+
 
 
 
