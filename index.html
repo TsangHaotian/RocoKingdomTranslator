@@ -236,19 +236,18 @@
         .editable-box {
             cursor: text;
             min-height: 80px;
-            max-height: 150px;
+            max-height: 120px;
             padding: 15px;
             overflow-y: auto;
             font-family: 'Rune', sans-serif;
             letter-spacing: 5px;
-            touch-action: none;
+            touch-action: auto;
             user-select: text;
             -webkit-user-select: text;
-            ime-mode: disabled;
             word-wrap: break-word;
             overflow-wrap: break-word;
             white-space: normal;
-            display: flex;
+            display: block;
             align-items: flex-start;
             justify-content: flex-start;
             flex-wrap: wrap;
@@ -349,16 +348,16 @@
             .keyboard-row {
                 display: flex;
                 justify-content: center;
-                gap: 2px;
+                gap: 3px;
             }
 
             .key-btn {
                 font-family: 'Rune', sans-serif;
-                font-size: 0.85em;
-                width: 24px;
-                height: 38px;
+                font-size: 1em;
+                width: 22px;
+                height: 48px;
                 border: 1px solid rgba(255,215,0,0.3);
-                border-radius: 5px;
+                border-radius: 6px;
                 background: rgba(0,0,0,0.4);
                 color: #fff;
                 cursor: pointer;
@@ -381,7 +380,9 @@
             }
 
             .key-btn.space {
-                width: 60px;
+                width: auto;
+                flex: 1;
+                max-width: none;
             }
 
             .key-btn.key-delete {
@@ -436,7 +437,7 @@
             <div class="reverse-section">
                 <div class="reverse-input">
                     <label>使用下方键盘输入洛克王国语：</label>
-                    <div class="output-box rune-text editable-box" id="runeInput" contenteditable="true" inputmode="none" onclick="this.focus(); event.preventDefault();" ontouchstart="this.focus(); event.preventDefault();" style="ime-mode:disabled; pointer-events:auto;"></div>
+                    <div class="output-box rune-text editable-box" id="runeInput" contenteditable="true" inputmode="none" onclick="this.focus()" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" style="ime-mode:disabled; -webkit-user-select: text;"></div>
                 </div>
                 <div class="reverse-input">
                     <label>翻译结果（英文）：</label>
@@ -687,6 +688,15 @@
                 sel.addRange(range);
                 runeToEng();
             }
+        }
+
+        // 处理触摸事件，允许移动光标
+        function handleTouchStart(e) {
+            // 允许触摸移动光标
+        }
+
+        function handleTouchMove(e) {
+            // 允许触摸移动光标
         }
     </script>
 </body>
