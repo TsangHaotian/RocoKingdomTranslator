@@ -2,6 +2,13 @@
 
 A web-based translator for converting between English and RocoKingdom language.
 
+
+
+<img width="1794" height="1471" alt="屏幕截图_26-4-2026_19300_" src="https://github.com/user-attachments/assets/11eb823f-7c38-49a3-bae8-50b7ac584857" />
+
+
+
+
 ## Features
 
 - **Letter Mapping Table**: Shows the mapping between 26 English letters and RocoKingdom characters
