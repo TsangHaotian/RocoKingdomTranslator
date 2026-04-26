@@ -563,17 +563,6 @@
             const bottomRow = document.createElement('div');
             bottomRow.className = 'keyboard-row';
 
-            // 删除键
-            const delBtn = document.createElement('button');
-            delBtn.className = 'key-btn key-delete';
-            delBtn.textContent = '⌫';
-            delBtn.onclick = (e) => {
-                e.preventDefault();
-                document.execCommand('delete', false);
-                runeToEng();
-            };
-            bottomRow.appendChild(delBtn);
-
             // 空格键
             const spaceBtn = document.createElement('button');
             spaceBtn.className = 'key-btn space';
@@ -584,6 +573,17 @@
                 runeToEng();
             };
             bottomRow.appendChild(spaceBtn);
+
+            // 删除键
+            const delBtn = document.createElement('button');
+            delBtn.className = 'key-btn key-delete';
+            delBtn.textContent = '⌫';
+            delBtn.onclick = (e) => {
+                e.preventDefault();
+                document.execCommand('delete', false);
+                runeToEng();
+            };
+            bottomRow.appendChild(delBtn);
 
             container.appendChild(bottomRow);
         }
