@@ -262,6 +262,85 @@
         .footer a:hover {
             text-decoration: underline;
         }
+
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.8em;
+            }
+
+            .section {
+                padding: 15px;
+                margin-bottom: 15px;
+            }
+
+            .section h2 {
+                font-size: 1.1em;
+            }
+
+            .translator-box, .reverse-section {
+                flex-direction: column;
+                gap: 10px;
+            }
+
+            .input-group, .reverse-input {
+                min-width: 100%;
+            }
+
+            textarea {
+                height: 80px;
+                font-size: 1em;
+            }
+
+            .output-box {
+                font-size: 1.5em;
+                min-height: 80px;
+            }
+
+            .letter-map {
+                grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+                gap: 5px;
+            }
+
+            .letter-item {
+                padding: 8px;
+            }
+
+            .letter-item .eng {
+                font-size: 1em;
+            }
+
+            .letter-item .rune {
+                font-size: 1.4em;
+            }
+
+            .keyboard-row {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .key-btn {
+                width: 35px;
+                height: 40px;
+                font-size: 1.1em;
+            }
+
+            .key-btn.space {
+                width: 120px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .actions button {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
