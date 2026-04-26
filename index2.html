@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>英文转洛克王国语</title>
+    <style>
+        @font-face {
+            font-family: 'Rune';
+            src: url('https://raw.githubusercontent.com/TsangHaotian/RocoKingdomTranslator/main/font/RUNEREGULAR.ttf') format('truetype');
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+            min-height: 100vh;
+            color: #e0e0e0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        h1 {
+            text-align: center;
+            color: #ffd700;
+            font-size: 2em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+        }
+
+        .back-link {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .back-link a {
+            color: #ffd700;
+            text-decoration: none;
+            font-size: 0.9em;
+        }
+
+        .back-link a:hover {
+            text-decoration: underline;
+        }
+
+        .section {
+            background: rgba(255,255,255,0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .section h2 {
+            color: #ffd700;
+            margin-bottom: 15px;
+            font-size: 1.2em;
+        }
+
+        textarea {
+            width: 100%;
+            height: 120px;
+            padding: 15px;
+            border: 2px solid rgba(255,215,0,0.3);
+            border-radius: 10px;
+            background: rgba(0,0,0,0.3);
+            color: #fff;
+            font-size: 1.1em;
+            resize: vertical;
+            font-family: inherit;
+        }
+
+        textarea:focus {
+            outline: none;
+            border-color: #ffd700;
+        }
+
+        .output-box {
+            width: 100%;
+            min-height: 120px;
+            padding: 15px;
+            border: 2px solid rgba(255,215,0,0.3);
+            border-radius: 10px;
+            background: rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            word-break: break-all;
+            text-align: center;
+            font-size: 2em;
+            font-family: 'Rune', sans-serif;
+            letter-spacing: 5px;
+            cursor: pointer;
+            user-select: text;
+            -webkit-user-select: text;
+        }
+
+        .output-box:hover {
+            border-color: #ffd700;
+        }
+
+        .actions {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+            flex-wrap: wrap;
+        }
+
+        button {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 1em;
+            transition: all 0.2s;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #ffd700, #ffaa00);
+            color: #1a1a2e;
+            font-weight: bold;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 15px rgba(255,215,0,0.4);
+        }
+
+        .btn-secondary {
+            background: rgba(255,255,255,0.1);
+            color: #fff;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+
+        .btn-secondary:hover {
+            background: rgba(255,255,255,0.2);
+        }
+
+        .footer {
+            text-align: center;
+            padding: 20px;
+            color: #888;
+            font-size: 0.9em;
+        }
+
+        .footer a {
+            color: #ffd700;
+            text-decoration: none;
+        }
+
+        .footer a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 768px) {
+            body {
+                padding: 10px;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            .section {
+                padding: 15px;
+            }
+
+            textarea {
+                height: 80px;
+            }
+
+            .output-box {
+                font-size: 1.5em;
+                min-height: 80px;
+            }
+
+            .actions {
+                flex-direction: column;
+            }
+
+            .actions button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="back-link">
+            <a href="index.html">← 返回主页</a>
+        </div>
+
+        <h1>英文转洛克王国语</h1>
+
+        <div class="section">
+            <h2>输入英文</h2>
+            <textarea id="engInput" placeholder="输入英文文字..." oninput="engToRune()"></textarea>
+        </div>
+
+        <div class="section">
+            <h2>洛克王国语（点击复制）</h2>
+            <div class="output-box" id="runeOutput" onclick="copyRune()">在此显示翻译结果</div>
+        </div>
+
+        <div class="actions">
+            <button class="btn-primary" onclick="copyRune()">复制洛克语</button>
+            <button class="btn-secondary" onclick="clearAll()">清空</button>
+        </div>
+
+        <div class="footer">
+            <p>作者：<a href="https://github.com/TsangHaotian" target="_blank">TsangHaotian</a></p>
+            <p>仓库：<a href="https://github.com/TsangHaotian/RocoKingdomTranslator" target="_blank">RocoKingdomTranslator</a></p>
+        </div>
+    </div>
+
+    <script>
+        // 自定义洛克王国语字符映射
+        const RUNE_MAP = {
+            'A': 'ᚨ',
+            'B': 'ᛒ',
+            'C': '<',
+            'D': 'ᛞ',
+            'E': '𐊿',
+            'F': 'ᚠ',
+            'G': '𑁛',
+            'H': 'ᛷ',
+            'I': 'ᛁ',
+            'J': '𖨠',
+            'K': '<',
+            'L': '𐊓',
+            'M': '𐠗',
+            'N': '𐨠',
+            'O': '𑁀',
+            'P': 'Ͼ',
+            'Q': 'Ⱒ',
+            'R': 'ᚱ',
+            'S': '𐌔',
+            'T': 'ᛏ',
+            'U': '𖥵',
+            'V': 'ᚹ',
+            'W': 'ᚹ',
+            'X': '𐰷',
+            'Y': 'ᴎ',
+            'Z': 'ᛉ'
+        };
+
+        const ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+
+        function engToRune() {
+            const input = document.getElementById('engInput').value.toUpperCase();
+            let result = '';
+            for (const char of input) {
+                if (RUNE_MAP[char]) {
+                    result += RUNE_MAP[char];
+                } else if (char === ' ') {
+                    result += ' ';
+                } else {
+                    result += char;
+                }
+            }
+            document.getElementById('runeOutput').textContent = result || '在此显示翻译结果';
+        }
+
+        function copyRune() {
+            const text = document.getElementById('runeOutput').textContent;
+            if (text && text !== '在此显示翻译结果') {
+                navigator.clipboard.writeText(text).then(() => alert('已复制到剪贴板'));
+            }
+        }
+
+        function clearAll() {
+            document.getElementById('engInput').value = '';
+            document.getElementById('runeOutput').textContent = '在此显示翻译结果';
+        }
+    </script>
+</body>
+</html>

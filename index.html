@@ -144,6 +144,20 @@
             font-size: 1.8em;
         }
 
+        .alt-translate-hint {
+            background: rgba(255,215,0,0.1);
+            border: 1px dashed rgba(255,215,0,0.3);
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 15px;
+        }
+
+        .alt-translate-hint p {
+            color: #ccc;
+            font-size: 0.9em;
+            margin: 5px 0;
+        }
+
         .actions {
             display: flex;
             gap: 10px;
@@ -407,6 +421,13 @@
         <div class="section">
             <h2>字母对照表</h2>
             <div class="letter-map" id="letterMap"></div>
+            <div class="alt-translate-hint">
+                <p>💡 由于洛克王国语使用的是自定义字体字符，无法用标准Unicode复制传播。</p>
+                <p>因此提供了使用近似字符的翻译版本，可复制到其他地方使用：</p>
+            </div>
+            <div class="actions" style="margin-top:10px;">
+                <a href="index2.html" class="btn-primary" style="text-decoration:none; display:inline-block; text-align:center;">→ 近似字符翻译版（可复制传播）</a>
+            </div>
         </div>
 
         <!-- 英文转洛克王国语 -->
