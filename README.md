@@ -2,6 +2,10 @@
 
 A web-based translator for converting between English and RocoKingdom language.
 
+![Uploading 屏幕截图_26-4-2026_19300_.jpeg…]()
+
+
+
 ## Features
 
 - **Letter Mapping Table**: Shows the mapping between 26 English letters and RocoKingdom characters
