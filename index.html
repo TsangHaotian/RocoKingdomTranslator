@@ -148,7 +148,7 @@
             background: rgba(255,215,0,0.1);
             border: 1px dashed rgba(255,215,0,0.3);
             border-radius: 8px;
-            padding: 12px;
+            padding: 15px;
             margin-top: 15px;
         }
 
@@ -156,6 +156,25 @@
             color: #ccc;
             font-size: 0.9em;
             margin: 5px 0;
+        }
+
+        .btn-big-link {
+            display: block;
+            text-align: center;
+            padding: 14px 20px;
+            background: linear-gradient(135deg, #ffd700, #ff8800);
+            color: #1a1a2e;
+            font-size: 1.1em;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 10px;
+            transition: all 0.2s;
+            box-shadow: 0 4px 15px rgba(255,215,0,0.3);
+        }
+
+        .btn-big-link:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 25px rgba(255,215,0,0.5);
         }
 
         .actions {
@@ -424,9 +443,9 @@
             <div class="alt-translate-hint">
                 <p>💡 由于洛克王国语使用的是自定义字体字符，无法用标准Unicode复制传播。</p>
                 <p>因此提供了使用近似字符的翻译版本，可复制到其他地方使用：</p>
-            </div>
-            <div class="actions" style="margin-top:10px;">
-                <a href="index2.html" class="btn-primary" style="text-decoration:none; display:inline-block; text-align:center;">点击此跳转页面（可复制传播版洛克语）</a>
+                <div style="margin-top:12px;">
+                    <a href="index2.html" class="btn-big-link">→ 跳转至可复制传播版洛克语翻译 ←</a>
+                </div>
             </div>
         </div>
 
