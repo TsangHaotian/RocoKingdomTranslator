@@ -2,12 +2,7 @@
 
 A web-based translator for converting between English and RocoKingdom language.
 
-
-
-<img width="1794" height="1471" alt="屏幕截图_26-4-2026_19300_" src="https://github.com/user-attachments/assets/11eb823f-7c38-49a3-bae8-50b7ac584857" />
-
-
-
+<img width="1794" height="1471" alt="screenshot" src="https://github.com/user-attachments/assets/11eb823f-7c38-49a3-bae8-50b7ac584857" />
 
 ## Features
 
@@ -21,54 +16,16 @@ A web-based translator for converting between English and RocoKingdom language.
 
 ## Usage
 
-### English to RocoKingdom
-
-1. Enter English text in the "English → RocoKingdom" section
-2. Translation displays instantly on the right
-3. Click "Copy Roco Language" to copy the result
-
-### RocoKingdom to English
-
-**Method 1: Virtual Keyboard**
-1. Click RocoKingdom characters on the virtual keyboard
-2. Translation displays instantly on the right
-
-**Method 2: Bind Physical Keyboard**
-1. Click "Bind Physical Keyboard" button
-2. Type directly on your keyboard to input RocoKingdom characters
-3. Click the button again to unbind
-
-## Tech Stack
-
-- HTML5
-- CSS3
-- JavaScript
-- Custom Font (RUNEREGULAR.ttf)
-
-## Run Locally
-
-```bash
-# Python 3
-python -m http.server 8000
-
-# Node.js
-npx serve .
-```
-
-Then visit `http://localhost:8000`
+Open `index.html` directly in your browser.
 
 ## Project Structure
 
 ```
 RocoKingdomTranslator/
 ├── index.html          # Main page
+├── index2.html         # Alt character translation (copyable)
 ├── font/
 │   └── RUNEREGULAR.ttf # RocoKingdom font file
 ├── README.md           # English documentation
 ├── README_cn.md        # Chinese documentation
 └── .gitignore
-```
-
-## License
-
-MIT License

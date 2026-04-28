@@ -14,54 +14,17 @@
 
 ## 使用方法
 
-### 英文转洛克王国语
-
-1. 在"英文 → 洛克王国语"区域输入英文
-2. 翻译结果会实时显示在右侧
-3. 点击"复制洛克语"按钮复制结果
-
-### 洛克王国语转英文
-
-**方法一：使用虚拟键盘**
-1. 点击键盘上的洛克王国语字符
-2. 翻译结果会实时显示在右侧
-
-**方法二：绑定物理键盘**
-1. 点击"绑定物理键盘"按钮
-2. 直接在键盘上按字母键即可输入洛克王国语
-3. 再次点击按钮可解绑
-
-## 技术栈
-
-- HTML5
-- CSS3
-- JavaScript
-- 自定义字体 (RUNEREGULAR.ttf)
-
-## 本地运行
-
-```bash
-# Python 3
-python -m http.server 8000
-
-# Node.js
-npx serve .
-```
-
-然后访问 `http://localhost:8000`
+直接双击打开 `index.html` 即可使用。
 
 ## 项目结构
 
 ```
 RocoKingdomTranslator/
 ├── index.html          # 主页面
+├── index2.html         # 近似字符翻译版（可复制传播）
 ├── font/
 │   └── RUNEREGULAR.ttf # 洛克王国语字体文件
 ├── README.md           # 英文说明文档
 ├── README_cn.md        # 中文说明文档
 └── .gitignore
 ```
-
-## 许可证
-
-MIT License
