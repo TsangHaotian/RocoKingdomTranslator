@@ -500,47 +500,27 @@
         <div class="footer">
             <p>作者：<a href="https://github.com/TsangHaotian" target="_blank">TsangHaotian</a></p>
             <p>仓库地址：<a href="https://github.com/TsangHaotian/RocoKingdomTranslator" target="_blank">RocoKingdomTranslator</a></p>
-            <p>访问次数：<span id="visitCount">加载中...</span> | 访问人数：<span id="visitorCount">加载中...</span></p>
+            <p>访问次数：<span id="busuanzi_value_site_pv" style="display:none;"></span><span id="visitCount">加载中...</span> | 访问人数：<span id="busuanzi_value_site_uv" style="display:none;"></span><span id="visitorCount">加载中...</span></p>
         </div>
     </div>
 
+    <script async src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script>
     <script>
-        // 计数器 - 使用 localStorage 方案（兼容所有网络环境）
-        (function() {
-            // 总访问次数（本地计数）
-            let totalCount = localStorage.getItem('rocoTotalVisit');
-            if (!totalCount) {
-                totalCount = 1;
+        // 访问计数（使用不蒜子，国内稳定）
+        setTimeout(function() {
+            var pv = document.getElementById('busuanzi_value_site_pv');
+            var uv = document.getElementById('busuanzi_value_site_uv');
+            if (pv && pv.textContent) {
+                document.getElementById('visitCount').textContent = pv.textContent;
             } else {
-                totalCount = parseInt(totalCount) + 1;
+                document.getElementById('visitCount').textContent = '--';
             }
-            localStorage.setItem('rocoTotalVisit', totalCount);
-            document.getElementById('visitCount').textContent = totalCount;
-
-            // 唯一访客数（本地计数）
-            let visitorCount = localStorage.getItem('rocoTotalVisitors');
-            let isNewVisitor = !localStorage.getItem('rocoVisitorRecorded');
-            if (isNewVisitor) {
-                localStorage.setItem('rocoVisitorRecorded', '1');
-                visitorCount = localStorage.getItem('rocoTotalVisitors');
-                visitorCount = visitorCount ? parseInt(visitorCount) + 1 : 1;
-                localStorage.setItem('rocoTotalVisitors', visitorCount);
+            if (uv && uv.textContent) {
+                document.getElementById('visitorCount').textContent = uv.textContent;
             } else {
-                visitorCount = localStorage.getItem('rocoTotalVisitors') || 1;
+                document.getElementById('visitorCount').textContent = '--';
             }
-            document.getElementById('visitorCount').textContent = visitorCount;
-
-            // 尝试同步到远程（网络好的时候自动同步，网络不好不影响本地显示）
-            try {
-                fetch('https://api.countapi.xyz/hit/roco-kingdom-translator/visits')
-                    .then(res => res.json())
-                    .then(data => {
-                        // 远程成功时，可选更新为远程数据（更准确的总数）
-                    })
-                    .catch(() => {});
-            } catch(e) {}
-        })();
-
+        }, 3000);
 
         // 现代键盘布局 (QWERTY)
         const QWERTY_LAYOUT = [
