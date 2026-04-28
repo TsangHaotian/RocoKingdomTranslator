@@ -16,7 +16,9 @@ A web-based translator for converting between English and RocoKingdom language.
 
 ## Usage
 
-Open `index.html` directly in your browser.
+1. Open `index.html` directly in your browser
+2. Enter English text to translate to RocoKingdom language
+3. Use the virtual keyboard or bind your physical keyboard to input RocoKingdom characters
 
 ## Project Structure
 
@@ -29,3 +31,8 @@ RocoKingdomTranslator/
 ├── README.md           # English documentation
 ├── README_cn.md        # Chinese documentation
 └── .gitignore
+```
+
+## License
+
+MIT License

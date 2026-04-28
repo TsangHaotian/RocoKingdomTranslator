@@ -14,7 +14,9 @@
 
 ## 使用方法
 
-直接双击打开 `index.html` 即可使用。
+1. 直接双击打开 `index.html` 即可使用
+2. 输入英文即可翻译为洛克王国语
+3. 使用虚拟键盘或绑定物理键盘输入洛克王国语字符
 
 ## 项目结构
 
@@ -28,3 +30,7 @@ RocoKingdomTranslator/
 ├── README_cn.md        # 中文说明文档
 └── .gitignore
 ```
+
+## 许可证
+
+MIT License
