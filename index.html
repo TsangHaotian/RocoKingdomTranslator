@@ -500,8 +500,42 @@
         <div class="footer">
             <p>作者：<a href="https://github.com/TsangHaotian" target="_blank">TsangHaotian</a></p>
             <p>仓库地址：<a href="https://github.com/TsangHaotian/RocoKingdomTranslator" target="_blank">RocoKingdomTranslator</a></p>
+            <p>访问次数：<span id="visitCount">加载中...</span> | 访问人数：<span id="visitorCount">加载中...</span></p>
         </div>
     </div>
+
+    <script>
+        // 访问计数器（每次刷新+1）
+        fetch('https://api.countapi.xyz/hit/roco-kingdom-translator/visits')
+            .then(res => res.json())
+            .then(data => {
+                document.getElementById('visitCount').textContent = data.value;
+            })
+            .catch(() => {
+                document.getElementById('visitCount').textContent = '获取失败';
+            });
+
+        // 唯一访客统计（每人只记1次）
+        if (!localStorage.getItem('rocoVisitorRecorded')) {
+            localStorage.setItem('rocoVisitorRecorded', '1');
+            fetch('https://api.countapi.xyz/hit/roco-kingdom-translator/visitors')
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('visitorCount').textContent = data.value;
+                })
+                .catch(() => {
+                    document.getElementById('visitorCount').textContent = '获取失败';
+                });
+        } else {
+            fetch('https://api.countapi.xyz/get/roco-kingdom-translator/visitors')
+                .then(res => res.json())
+                .then(data => {
+                    document.getElementById('visitorCount').textContent = data.value;
+                })
+                .catch(() => {
+                    document.getElementById('visitorCount').textContent = '获取失败';
+                });
+        }
 
     <script>
         // 现代键盘布局 (QWERTY)
