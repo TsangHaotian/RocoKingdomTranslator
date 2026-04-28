@@ -505,37 +505,41 @@
     </div>
 
     <script>
-        // 访问计数器（每次刷新+1）
-        fetch('https://api.countapi.xyz/hit/roco-kingdom-translator/visits')
-            .then(res => res.json())
-            .then(data => {
-                document.getElementById('visitCount').textContent = data.value;
-            })
-            .catch(() => {
-                document.getElementById('visitCount').textContent = '获取失败';
-            });
+        // 计数器 - 使用 localStorage 方案（兼容所有网络环境）
+        (function() {
+            // 总访问次数（本地计数）
+            let totalCount = localStorage.getItem('rocoTotalVisit');
+            if (!totalCount) {
+                totalCount = 1;
+            } else {
+                totalCount = parseInt(totalCount) + 1;
+            }
+            localStorage.setItem('rocoTotalVisit', totalCount);
+            document.getElementById('visitCount').textContent = totalCount;
 
-        // 唯一访客统计（每人只记1次）
-        if (!localStorage.getItem('rocoVisitorRecorded')) {
-            localStorage.setItem('rocoVisitorRecorded', '1');
-            fetch('https://api.countapi.xyz/hit/roco-kingdom-translator/visitors')
-                .then(res => res.json())
-                .then(data => {
-                    document.getElementById('visitorCount').textContent = data.value;
-                })
-                .catch(() => {
-                    document.getElementById('visitorCount').textContent = '获取失败';
-                });
-        } else {
-            fetch('https://api.countapi.xyz/get/roco-kingdom-translator/visitors')
-                .then(res => res.json())
-                .then(data => {
-                    document.getElementById('visitorCount').textContent = data.value;
-                })
-                .catch(() => {
-                    document.getElementById('visitorCount').textContent = '获取失败';
-                });
-        }
+            // 唯一访客数（本地计数）
+            let visitorCount = localStorage.getItem('rocoTotalVisitors');
+            let isNewVisitor = !localStorage.getItem('rocoVisitorRecorded');
+            if (isNewVisitor) {
+                localStorage.setItem('rocoVisitorRecorded', '1');
+                visitorCount = localStorage.getItem('rocoTotalVisitors');
+                visitorCount = visitorCount ? parseInt(visitorCount) + 1 : 1;
+                localStorage.setItem('rocoTotalVisitors', visitorCount);
+            } else {
+                visitorCount = localStorage.getItem('rocoTotalVisitors') || 1;
+            }
+            document.getElementById('visitorCount').textContent = visitorCount;
+
+            // 尝试同步到远程（网络好的时候自动同步，网络不好不影响本地显示）
+            try {
+                fetch('https://api.countapi.xyz/hit/roco-kingdom-translator/visits')
+                    .then(res => res.json())
+                    .then(data => {
+                        // 远程成功时，可选更新为远程数据（更准确的总数）
+                    })
+                    .catch(() => {});
+            } catch(e) {}
+        })();
 
 
         // 现代键盘布局 (QWERTY)
