@@ -27,6 +27,29 @@
         .container {
             max-width: 900px;
             margin: 0 auto;
+            position: relative;
+        }
+
+        .lang-switch {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+        .lang-switch button {
+            padding: 6px 14px;
+            border: 1px solid rgba(255,215,0,0.4);
+            border-radius: 6px;
+            background: rgba(0,0,0,0.4);
+            color: #ffd700;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-switch button:hover {
+            background: rgba(255,215,0,0.2);
         }
 
         h1 {
@@ -433,78 +456,161 @@
 </head>
 <body>
     <div class="container">
-        <h1>洛克王国语翻译器</h1>
-        <p class="subtitle">Roco Kingdom Language Translator</p>
+        <div class="lang-switch">
+            <button id="langBtn" onclick="toggleLang()">English</button>
+        </div>
+        <h1 data-i18n="title">洛克王国语翻译器</h1>
+        <p class="subtitle" data-i18n="subtitle">Roco Kingdom Language Translator</p>
 
         <!-- 字母对照表 -->
         <div class="section">
-            <h2>字母对照表</h2>
+            <h2 data-i18n="letterMapTitle">字母对照表</h2>
             <div class="letter-map" id="letterMap"></div>
             <div class="alt-translate-hint">
-                <p>💡 由于洛克王国语使用的是自定义字体字符，无法用标准Unicode复制传播。</p>
-                <p>因此提供了使用近似字符的翻译版本，可复制到其他地方使用：</p>
+                <p data-i18n="altHint1">💡 由于洛克王国语使用的是自定义字体字符，无法用标准Unicode复制传播。</p>
+                <p data-i18n="altHint2">因此提供了使用近似字符的翻译版本，可复制到其他地方使用：</p>
                 <div style="margin-top:12px;">
-                    <a href="index2.html" class="btn-big-link">→ 跳转至可复制传播版洛克语翻译 ←</a>
+                    <a href="index2.html" class="btn-big-link" data-i18n="altLink">→ 跳转至可复制传播版洛克语翻译 ←</a>
                 </div>
             </div>
         </div>
 
         <!-- 英文转洛克王国语 -->
         <div class="section">
-            <h2>英文 → 洛克王国语</h2>
+            <h2 data-i18n="en2RuneTitle">英文 → 洛克王国语</h2>
             <div class="translator-box">
                 <div class="input-group">
-                    <label>输入英文：</label>
-                    <textarea id="engInput" placeholder="输入英文..." oninput="engToRune()"></textarea>
+                    <label data-i18n="enInput">输入英文：</label>
+                    <textarea id="engInput" data-i18n-placeholder="enPlaceholder" placeholder="输入英文..." oninput="engToRune()"></textarea>
                 </div>
                 <div class="input-group">
-                    <label>翻译结果：</label>
-                    <div class="output-box rune-text" id="runeOutput">在此显示翻译结果</div>
+                    <label data-i18n="result">翻译结果：</label>
+                    <div class="output-box rune-text" id="runeOutput" data-i18n-default="defaultResult">在此显示翻译结果</div>
                 </div>
             </div>
             <div class="actions">
-                <button class="btn-secondary" onclick="copyRune()">复制</button>
-                <button class="btn-secondary" onclick="clearEng()">清空</button>
+                <button class="btn-secondary" onclick="copyRune()" data-i18n="copy">复制</button>
+                <button class="btn-secondary" onclick="clearEng()" data-i18n="clear">清空</button>
             </div>
         </div>
 
         <!-- 洛克王国语转英文 -->
         <div class="section">
-            <h2>洛克王国语 → 英文</h2>
-            <h4>虚拟键盘键入洛克语时，实时翻译功能需要先点击绑定物理键盘（手机端可忽略）</h4>
+            <h2 data-i18n="rune2EnTitle">洛克王国语 → 英文</h2>
+            <h4 data-i18n="rune2EnHint">虚拟键盘键入洛克语时，实时翻译功能需要先点击绑定物理键盘（手机端可忽略）</h4>
             <div class="reverse-section">
                 <div class="reverse-input">
-                    <label>使用下方键盘输入洛克王国语：</label>
+                    <label data-i18n="runeInput">使用下方键盘输入洛克王国语：</label>
                     <div class="output-box rune-text editable-box" id="runeInput" contenteditable="true" inputmode="none" onclick="this.focus()" ontouchstart="handleTouchStart(event)" ontouchmove="handleTouchMove(event)" style="ime-mode:disabled; -webkit-user-select: text;"></div>
                 </div>
                 <div class="reverse-input">
-                    <label>翻译结果（英文）：</label>
-                    <div class="output-box eng-text" id="engOutput">在此显示翻译结果</div>
+                    <label data-i18n="resultEn">翻译结果（英文）：</label>
+                    <div class="output-box eng-text" id="engOutput" data-i18n-default="defaultResult">在此显示翻译结果</div>
                 </div>
             </div>
             <div class="actions">
-                <button class="btn-secondary" id="bindKeyboardBtn" onclick="toggleKeyboardBind()">绑定物理键盘</button>
-                <button class="btn-secondary" onclick="copyEng()">复制结果</button>
-                <button class="btn-secondary" onclick="clearRune()">清空</button>
+                <button class="btn-secondary" id="bindKeyboardBtn" onclick="toggleKeyboardBind()" data-i18n="bindKb">绑定物理键盘</button>
+                <button class="btn-secondary" onclick="copyEng()" data-i18n="copyResult">复制结果</button>
+                <button class="btn-secondary" onclick="clearRune()" data-i18n="clear">清空</button>
             </div>
         </div>
 
         <!-- 虚拟键盘 - QWERTY布局 -->
         <div class="section">
-            <h2>洛克王国语虚拟键盘</h2>
-            <p class="helper-text">点击字符输入</p>
+            <h2 data-i18n="kbTitle">洛克王国语虚拟键盘</h2>
+            <p class="helper-text" data-i18n="kbHint">点击字符输入</p>
             <div class="keyboard-grid" id="keyboard"></div>
         </div>
 
         <!-- 作者信息 -->
         <div class="footer">
-            <p>作者：<a href="https://github.com/TsangHaotian" target="_blank">TsangHaotian</a></p>
-            <p>仓库地址：<a href="https://github.com/TsangHaotian/RocoKingdomTranslator" target="_blank">RocoKingdomTranslator</a></p>
+            <p><span data-i18n="author">作者</span>：<a href="https://github.com/TsangHaotian" target="_blank">TsangHaotian</a></p>
+            <p><span data-i18n="repo">仓库地址</span>：<a href="https://github.com/TsangHaotian/RocoKingdomTranslator" target="_blank">RocoKingdomTranslator</a></p>
             <p style="color:#666;font-size:0.85em;margin-top:5px;">Version 0.1.2</p>
         </div>
     </div>
 
     <script>
+        // 中英文翻译字典
+        const i18nDict = {
+            title: { zh: '洛克王国语翻译器', en: 'RocoKingdom Translator' },
+            subtitle: { zh: '洛克王国语翻译工具', en: 'Roco Kingdom Language Translator' },
+            letterMapTitle: { zh: '字母对照表', en: 'Letter Mapping Table' },
+            en2RuneTitle: { zh: '英文 → 洛克王国语', en: 'English → RocoKingdom' },
+            rune2EnTitle: { zh: '洛克王国语 → 英文', en: 'RocoKingdom → English' },
+            kbTitle: { zh: '洛克王国语虚拟键盘', en: 'RocoKingdom Virtual Keyboard' },
+            altHint1: { zh: '💡 由于洛克王国语使用的是自定义字体字符，无法用标准Unicode复制传播。', en: '💡 RocoKingdom uses a custom font that cannot be copied via standard Unicode.' },
+            altHint2: { zh: '因此提供了使用近似字符的翻译版本，可复制到其他地方使用：', en: 'A version using similar Unicode characters is available for copying and sharing:' },
+            altLink: { zh: '→ 跳转至可复制传播版洛克语翻译 ←', en: '→ Go to Copyable RocoKingdom Translation ←' },
+            enInput: { zh: '输入英文：', en: 'Enter English:' },
+            result: { zh: '翻译结果：', en: 'Translation:' },
+            resultEn: { zh: '翻译结果（英文）：', en: 'Translation (English):' },
+            runeInput: { zh: '使用下方键盘输入洛克王国语：', en: 'Use the keyboard below to type RocoKingdom:' },
+            enPlaceholder: { zh: '输入英文...', en: 'Enter English...' },
+            defaultResult: { zh: '在此显示翻译结果', en: 'Translation will appear here' },
+            copy: { zh: '复制', en: 'Copy' },
+            clear: { zh: '清空', en: 'Clear' },
+            bindKb: { zh: '绑定物理键盘', en: 'Bind Keyboard' },
+            unbindKb: { zh: '解绑物理键盘', en: 'Unbind Keyboard' },
+            copyResult: { zh: '复制结果', en: 'Copy Result' },
+            kbHint: { zh: '点击字符输入', en: 'Click to type' },
+            rune2EnHint: { zh: '虚拟键盘键入洛克语时，实时翻译功能需要先点击绑定物理键盘（手机端可忽略）', en: 'Click "Bind Keyboard" to use your physical keyboard for input (mobile can ignore)' },
+            author: { zh: '作者', en: 'Author' },
+            repo: { zh: '仓库地址', en: 'Repository' },
+            copied: { zh: '已复制', en: 'Copied' },
+        };
+        // 空格键翻译
+        const spaceText = { zh: '空格', en: 'Space' };
+
+        let currentLang = localStorage.getItem('rocoLang') || 'zh';
+
+        // 应用语言
+        function applyLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('rocoLang', lang);
+            // 切换按钮文字
+            document.getElementById('langBtn').textContent = lang === 'zh' ? 'English' : '中文';
+            // 遍历 data-i18n 元素
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (i18nDict[key]) {
+                    el.textContent = i18nDict[key][lang];
+                }
+            });
+            // 处理 placeholder
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.dataset.i18nPlaceholder;
+                if (i18nDict[key]) {
+                    el.placeholder = i18nDict[key][lang];
+                }
+            });
+            // 处理 default 文本（仅当元素显示的是旧默认文本时才更新）
+            const oldLang = lang === 'zh' ? 'en' : 'zh';
+            document.querySelectorAll('[data-i18n-default]').forEach(el => {
+                const key = el.dataset.i18nDefault;
+                const oldDefault = i18nDict[key] ? i18nDict[key][oldLang] : null;
+                if (oldDefault && el.textContent === oldDefault) {
+                    el.textContent = i18nDict[key][lang];
+                    el.classList.remove('rune-text');
+                }
+            });
+            // 更新空格键
+            document.querySelectorAll('.key-btn.space').forEach(btn => {
+                btn.textContent = spaceText[lang];
+            });
+            // 更新绑定/解绑按钮
+            const bindBtn = document.getElementById('bindKeyboardBtn');
+            if (bindBtn && keyboardBound !== undefined) {
+                bindBtn.textContent = keyboardBound ? i18nDict.unbindKb[lang] : i18nDict.bindKb[lang];
+            }
+            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+        }
+
+        function toggleLang() {
+            const newLang = currentLang === 'zh' ? 'en' : 'zh';
+            applyLang(newLang);
+        }
+
         // 现代键盘布局 (QWERTY)
         const QWERTY_LAYOUT = [
             ['Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P'],
@@ -636,7 +742,14 @@
             for (const char of input) {
                 result += engToRuneMap[char] || (char === ' ' ? ' ' : char);
             }
-            document.getElementById('runeOutput').textContent = result || '在此显示翻译结果';
+            const output = document.getElementById('runeOutput');
+            if (result) {
+                output.textContent = result;
+                output.classList.add('rune-text');
+            } else {
+                output.textContent = i18nDict.defaultResult[currentLang];
+                output.classList.remove('rune-text');
+            }
         }
 
         // 洛克王国语转英文
@@ -650,33 +763,37 @@
                     result += runeToEngMap[char] || '';
                 }
             }
-            document.getElementById('engOutput').textContent = result || '在此显示翻译结果';
+            document.getElementById('engOutput').textContent = result || i18nDict.defaultResult[currentLang];
         }
 
         // 复制
         function copyRune() {
             const text = document.getElementById('runeOutput').textContent;
-            if (text && text !== '在此显示翻译结果') {
-                navigator.clipboard.writeText(text).then(() => alert('已复制'));
+            const defaultText = i18nDict.defaultResult[currentLang];
+            if (text && text !== defaultText) {
+                navigator.clipboard.writeText(text).then(() => alert(i18nDict.copied[currentLang]));
             }
         }
 
         function copyEng() {
             const text = document.getElementById('engOutput').textContent;
-            if (text && text !== '在此显示翻译结果') {
-                navigator.clipboard.writeText(text).then(() => alert('已复制'));
+            const defaultText = i18nDict.defaultResult[currentLang];
+            if (text && text !== defaultText) {
+                navigator.clipboard.writeText(text).then(() => alert(i18nDict.copied[currentLang]));
             }
         }
 
         // 清空
         function clearEng() {
             document.getElementById('engInput').value = '';
-            document.getElementById('runeOutput').textContent = '在此显示翻译结果';
+            const runeOut = document.getElementById('runeOutput');
+            runeOut.textContent = i18nDict.defaultResult[currentLang];
+            runeOut.classList.remove('rune-text');
         }
 
         function clearRune() {
             document.getElementById('runeInput').textContent = '';
-            document.getElementById('engOutput').textContent = '在此显示翻译结果';
+            document.getElementById('engOutput').textContent = i18nDict.defaultResult[currentLang];
         }
 
         // 初始化
@@ -686,6 +803,7 @@
         buildMaps();
         renderLetterMap();
         renderKeyboard();
+        applyLang(currentLang);
 
         // 使用 MutationObserver 监听输入框变化
         const runeInput = document.getElementById('runeInput');

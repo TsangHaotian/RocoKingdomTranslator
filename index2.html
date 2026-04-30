@@ -27,6 +27,29 @@
         .container {
             max-width: 800px;
             margin: 0 auto;
+            position: relative;
+        }
+
+        .lang-switch {
+            position: absolute;
+            top: 0;
+            right: 0;
+            z-index: 10;
+        }
+
+        .lang-switch button {
+            padding: 6px 14px;
+            border: 1px solid rgba(255,215,0,0.4);
+            border-radius: 6px;
+            background: rgba(0,0,0,0.4);
+            color: #ffd700;
+            font-size: 0.85em;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .lang-switch button:hover {
+            background: rgba(255,215,0,0.2);
         }
 
         h1 {
@@ -234,59 +257,119 @@
 </head>
 <body>
     <div class="container">
+        <div class="lang-switch">
+            <button id="langBtn" onclick="toggleLang()">English</button>
+        </div>
         <div class="back-link">
-            <a href="index.html">← 返回主页</a>
+            <a href="index.html" data-i18n="backHome">← 返回主页</a>
         </div>
 
-        <h1>洛克王国语翻译器</h1>
-        <p style="text-align:center;color:#aaa;margin-bottom:20px;">近似字符版（可复制传播）</p>
+        <h1 data-i18n="title">洛克王国语翻译器</h1>
+        <p style="text-align:center;color:#aaa;margin-bottom:20px;" data-i18n="subtitle">近似字符版（可复制传播）</p>
 
         <!-- 英文 → 洛克语 -->
         <div class="section">
-            <h2>英文 → 洛克王国语</h2>
+            <h2 data-i18n="en2RuneTitle">英文 → 洛克王国语</h2>
             <div class="translator-box">
                 <div class="input-group">
-                    <label>输入英文：</label>
-                    <textarea id="engInput" placeholder="输入英文文字..." oninput="engToRune()"></textarea>
+                    <label data-i18n="enInput">输入英文：</label>
+                    <textarea id="engInput" data-i18n-placeholder="enPlaceholder" placeholder="输入英文文字..." oninput="engToRune()"></textarea>
                 </div>
                 <div class="input-group">
-                    <label>洛克王国语（点击复制）：</label>
-                    <div class="output-box rune-output-box" id="runeOutput" onclick="copyRune()">在此显示翻译结果</div>
+                    <label data-i18n="runeOutputLabel">洛克王国语（点击复制）：</label>
+                    <div class="output-box rune-output-box" id="runeOutput" data-i18n-default="defaultResult" onclick="copyRune()">在此显示翻译结果</div>
                 </div>
             </div>
             <div class="actions">
-                <button class="btn-primary" onclick="copyRune()">复制洛克语</button>
-                <button class="btn-secondary" onclick="clearEng()">清空</button>
+                <button class="btn-primary" onclick="copyRune()" data-i18n="copyRune">复制洛克语</button>
+                <button class="btn-secondary" onclick="clearEng()" data-i18n="clear">清空</button>
             </div>
         </div>
 
         <!-- 洛克语 → 英文 -->
         <div class="section">
-            <h2>洛克王国语 → 英文</h2>
-            <p style="color:#888;font-size:0.85em;margin-bottom:10px;">将上方翻译出的洛克语复制粘贴到下方输入框进行翻译</p>
+            <h2 data-i18n="rune2EnTitle">洛克王国语 → 英文</h2>
+            <p style="color:#888;font-size:0.85em;margin-bottom:10px;" data-i18n="rune2EnHint">将上方翻译出的洛克语复制粘贴到下方输入框进行翻译</p>
             <div class="translator-box">
                 <div class="input-group">
-                    <label>输入洛克王国语：</label>
-                    <textarea id="runeInput" placeholder="粘贴或输入洛克王国语..." oninput="runeToEng()"></textarea>
+                    <label data-i18n="runeInputLabel">输入洛克王国语：</label>
+                    <textarea id="runeInput" data-i18n-placeholder="runePlaceholder" placeholder="粘贴或输入洛克王国语..." oninput="runeToEng()"></textarea>
                 </div>
                 <div class="input-group">
-                    <label>翻译结果（英文）：</label>
-                    <div class="output-box eng-text" id="engOutput">在此显示翻译结果</div>
+                    <label data-i18n="resultEn">翻译结果（英文）：</label>
+                    <div class="output-box eng-text" id="engOutput" data-i18n-default="defaultResult">在此显示翻译结果</div>
                 </div>
             </div>
             <div class="actions">
-                <button class="btn-primary" onclick="copyEng()">复制英文</button>
-                <button class="btn-secondary" onclick="clearRune()">清空</button>
+                <button class="btn-primary" onclick="copyEng()" data-i18n="copyEng">复制英文</button>
+                <button class="btn-secondary" onclick="clearRune()" data-i18n="clear">清空</button>
             </div>
         </div>
 
         <div class="footer">
-            <p>作者：<a href="https://github.com/TsangHaotian" target="_blank">TsangHaotian</a></p>
-            <p>仓库：<a href="https://github.com/TsangHaotian/RocoKingdomTranslator" target="_blank">RocoKingdomTranslator</a></p>
+            <p><span data-i18n="author">作者</span>：<a href="https://github.com/TsangHaotian" target="_blank">TsangHaotian</a></p>
+            <p><span data-i18n="repo">仓库地址</span>：<a href="https://github.com/TsangHaotian/RocoKingdomTranslator" target="_blank">RocoKingdomTranslator</a></p>
+            <p style="color:#666;font-size:0.85em;margin-top:5px;">Version 0.1.2</p>
         </div>
     </div>
 
     <script>
+        // 中英文翻译字典
+        const i18nDict = {
+            title: { zh: '洛克王国语翻译器', en: 'RocoKingdom Translator' },
+            subtitle: { zh: '近似字符版（可复制传播）', en: 'Similar Character Version (Copyable)' },
+            backHome: { zh: '← 返回主页', en: '← Back to Home' },
+            en2RuneTitle: { zh: '英文 → 洛克王国语', en: 'English → RocoKingdom' },
+            rune2EnTitle: { zh: '洛克王国语 → 英文', en: 'RocoKingdom → English' },
+            rune2EnHint: { zh: '将上方翻译出的洛克语复制粘贴到下方输入框进行翻译', en: 'Copy RocoKingdom text from above and paste into the input below' },
+            enInput: { zh: '输入英文：', en: 'Enter English:' },
+            runeOutputLabel: { zh: '洛克王国语（点击复制）：', en: 'RocoKingdom (click to copy):' },
+            runeInputLabel: { zh: '输入洛克王国语：', en: 'Enter RocoKingdom:' },
+            resultEn: { zh: '翻译结果（英文）：', en: 'Translation (English):' },
+            enPlaceholder: { zh: '输入英文...', en: 'Enter English...' },
+            runePlaceholder: { zh: '粘贴或输入洛克王国语...', en: 'Paste or type RocoKingdom...' },
+            defaultResult: { zh: '在此显示翻译结果', en: 'Translation will appear here' },
+            copyRune: { zh: '复制洛克语', en: 'Copy RocoKingdom' },
+            copyEng: { zh: '复制英文', en: 'Copy English' },
+            clear: { zh: '清空', en: 'Clear' },
+            author: { zh: '作者', en: 'Author' },
+            repo: { zh: '仓库地址', en: 'Repository' },
+            copied: { zh: '已复制', en: 'Copied' },
+        };
+
+        let currentLang = localStorage.getItem('rocoLang2') || 'zh';
+
+        function applyLang(lang) {
+            currentLang = lang;
+            localStorage.setItem('rocoLang2', lang);
+            document.getElementById('langBtn').textContent = lang === 'zh' ? 'English' : '中文';
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.dataset.i18n;
+                if (i18nDict[key]) {
+                    el.textContent = i18nDict[key][lang];
+                }
+            });
+            document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
+                const key = el.dataset.i18nPlaceholder;
+                if (i18nDict[key]) {
+                    el.placeholder = i18nDict[key][lang];
+                }
+            });
+            const oldLang = lang === 'zh' ? 'en' : 'zh';
+            document.querySelectorAll('[data-i18n-default]').forEach(el => {
+                const key = el.dataset.i18nDefault;
+                const oldDefault = i18nDict[key] ? i18nDict[key][oldLang] : null;
+                if (oldDefault && el.textContent === oldDefault) {
+                    el.textContent = i18nDict[key][lang];
+                }
+            });
+            document.documentElement.lang = lang === 'zh' ? 'zh-CN' : 'en';
+        }
+
+        function toggleLang() {
+            applyLang(currentLang === 'zh' ? 'en' : 'zh');
+        }
+
         // 自定义洛克王国语字符映射 (英语 → 洛克语)
         const ENG_TO_RUNE = {
             'A': 'ᚨ',
@@ -336,7 +419,7 @@
                     result += char;
                 }
             }
-            document.getElementById('runeOutput').textContent = result || '在此显示翻译结果';
+            document.getElementById('runeOutput').textContent = result || i18nDict.defaultResult[currentLang];
         }
 
         // 洛克语 → 英文
@@ -352,34 +435,38 @@
                     result += char;
                 }
             }
-            document.getElementById('engOutput').textContent = result || '在此显示翻译结果';
+            document.getElementById('engOutput').textContent = result || i18nDict.defaultResult[currentLang];
         }
 
         // 复制
         function copyRune() {
             const text = document.getElementById('runeOutput').textContent;
-            if (text && text !== '在此显示翻译结果') {
-                navigator.clipboard.writeText(text).then(() => alert('已复制到剪贴板'));
+            const defaultText = i18nDict.defaultResult[currentLang];
+            if (text && text !== defaultText) {
+                navigator.clipboard.writeText(text).then(() => alert(i18nDict.copied[currentLang]));
             }
         }
 
         function copyEng() {
             const text = document.getElementById('engOutput').textContent;
-            if (text && text !== '在此显示翻译结果') {
-                navigator.clipboard.writeText(text).then(() => alert('已复制到剪贴板'));
+            const defaultText = i18nDict.defaultResult[currentLang];
+            if (text && text !== defaultText) {
+                navigator.clipboard.writeText(text).then(() => alert(i18nDict.copied[currentLang]));
             }
         }
 
         // 清空
         function clearEng() {
             document.getElementById('engInput').value = '';
-            document.getElementById('runeOutput').textContent = '在此显示翻译结果';
+            document.getElementById('runeOutput').textContent = i18nDict.defaultResult[currentLang];
         }
 
         function clearRune() {
             document.getElementById('runeInput').value = '';
-            document.getElementById('engOutput').textContent = '在此显示翻译结果';
+            document.getElementById('engOutput').textContent = i18nDict.defaultResult[currentLang];
         }
+
+        applyLang(currentLang);
     </script>
 </body>
 </html>
