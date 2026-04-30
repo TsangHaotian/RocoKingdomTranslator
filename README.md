@@ -2,6 +2,8 @@
 
 A web-based translator for converting between English and RocoKingdom language.
 
+https://tsanghaotian.github.io/RocoKingdomTranslator/
+
 <img width="1794" height="1471" alt="screenshot" src="https://github.com/user-attachments/assets/11eb823f-7c38-49a3-bae8-50b7ac584857" />
 
 ## Features
